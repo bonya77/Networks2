@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.nio.channels.NetworkChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 
