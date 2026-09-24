@@ -13,7 +13,7 @@ import java.util.Enumeration;
 
 public class IpV6version extends Application{
 
-    private final ProtocolFamily family = StandardProtocolFamily.INET;
+    private final ProtocolFamily family = StandardProtocolFamily.INET6;
     //нужен для подключения к multicast group при использовании ipv6
     private NetworkInterface nInterface = null;
 
@@ -51,17 +51,18 @@ public class IpV6version extends Application{
                 throw new RuntimeException("No interface that works with the fourth version of IP");
             }
 
+            //необходимо, потому что по умолчанию ос не дает двум сокетам подключится к одному порту
+            //в нашем случае это неприемлимо, потому что в мультикаст группе обязательно будет приходить
+            // сразу несколько сообщений
+            datagramChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true);
+            datagramChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+
             datagramChannel.bind(new InetSocketAddress(groupInetSocketAddress.getPort()));
 
             //опция для захвата единственного порта на отправку, действует только на отправку(send)
             //на чтение действует интерфейс, указанный в join
             datagramChannel.setOption(StandardSocketOptions.IP_MULTICAST_IF, nInterface);
 
-            //необходимо, потому что по умолчанию ос не дает двум сокетам подключится к одному порту
-            //в нашем случае это неприемлимо, потому что в мультикаст группе обязательно будет приходить
-            // сразу несколько сообщений
-            datagramChannel.setOption(StandardSocketOptions.SO_REUSEPORT, true);
-            datagramChannel.setOption(StandardSocketOptions.SO_REUSEADDR, true);
             datagramChannel.join(groupInetSocketAddress.getAddress(), nInterface);
 
             startSend(datagramChannel);
