@@ -54,6 +54,7 @@ public class IpV4version extends Application{
                 throw new RuntimeException("No interface that works with the fourth version of IP");
             }
 
+            System.out.println("=== Selected interface: " + nInterface.getName() + " / " + nInterface.getDisplayName());
             datagramChannel.bind(new InetSocketAddress(groupInetSocketAddress.getPort()));
 
             //опция для захвата единственного порта на отправку, действует только на отправку(send)

@@ -51,6 +51,7 @@ public class IpV6version extends Application{
                 throw new RuntimeException("No interface that works with the fourth version of IP");
             }
 
+            System.out.println("=== Selected interface: " + nInterface.getName() + " / " + nInterface.getDisplayName());
             //необходимо, потому что по умолчанию ос не дает двум сокетам подключится к одному порту
             //в нашем случае это неприемлимо, потому что в мультикаст группе обязательно будет приходить
             // сразу несколько сообщений
