@@ -33,7 +33,7 @@ public class IpV4version extends Application{
             while (interfaces.hasMoreElements()){
                 NetworkInterface networkInterface = interfaces.nextElement();
                 if(networkInterface.isLoopback() || !networkInterface.isUp() ||
-                        !networkInterface.supportsMulticast() ){
+                        !networkInterface.supportsMulticast() || networkInterface.isVirtual()){
                     continue;
                 }
 
