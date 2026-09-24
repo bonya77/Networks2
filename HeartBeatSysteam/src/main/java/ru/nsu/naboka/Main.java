@@ -20,7 +20,7 @@ public class Main {
                 IpV4version ipV4version = new IpV4version(groupInetSocketAddress);
                 ipV4version.getMulticastConnection();
             }
-            if (groupAddr instanceof Inet6Address){
+            else if (groupAddr instanceof Inet6Address){
                 IpV6version ipV6version = new IpV6version(groupInetSocketAddress);
                 ipV6version.getMulticastConnection();
             }
