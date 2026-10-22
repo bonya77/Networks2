@@ -1,17 +1,11 @@
 package ru.nsu.naboka;
 
-import jdk.net.ExtendedSocketOptions;
-
 import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.nio.channels.NetworkChannel;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.concurrent.locks.StampedLock;
 
 
 public class IpV4version extends Application{
@@ -26,6 +20,13 @@ public class IpV4version extends Application{
         this.groupInetSocketAddress = groupInetSocketAddress;
     }
 
+    private static boolean isVirtualByName(String name){
+        String n = name.toLowerCase();
+        return n.startsWith("docker") || n.startsWith("br-") || n.startsWith("veth") ||
+                n.startsWith("virbr") || n.startsWith("vbox") || n.startsWith("tun") ||
+                n.startsWith("tap") || n.startsWith("wg");
+    }
+
     void getMulticastConnection() throws IOException {
         try{
             DatagramChannel datagramChannel = DatagramChannel.open(family);
@@ -33,7 +34,8 @@ public class IpV4version extends Application{
             while (interfaces.hasMoreElements()){
                 NetworkInterface networkInterface = interfaces.nextElement();
                 if(networkInterface.isLoopback() || !networkInterface.isUp() ||
-                        !networkInterface.supportsMulticast() || networkInterface.isVirtual()){
+                        !networkInterface.supportsMulticast() || networkInterface.isVirtual() ||
+                isVirtualByName(networkInterface.getName())){
                     continue;
                 }
 

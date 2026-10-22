@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Crypto finder</h1>
+<form th:action="@{/locations}" method="get">
+  <label for="query">Crypto ticker</label>
+  <input  id="query"
+          name="query"
+          type="text"
+          required
+  >
+  <button type="submit">Search</button>
+</form>
+
+<div th:if=${coins != null}>
+<!--    отображение списка поддящих по тикеру монет-->
+</div>
+
+<div th:if="${coin != null}">
+<!--    отображение конкретной монеты-->
+</div>
+</body>
+</html>

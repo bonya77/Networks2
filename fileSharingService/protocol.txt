@@ -1,0 +1,8 @@
+Клиент → сервер:
+  int    nameLen   4 байта, big-endian, от 1 до 4096
+  byte[] name      nameLen байт, UTF-8
+  long   size      8 байт, big-endian, от 0 до 2^40
+  byte[] content   ровно size байт
+
+Сервер → клиент (после приёма всего файла):
+  byte   status    1 — успех, 0 — ошибка
